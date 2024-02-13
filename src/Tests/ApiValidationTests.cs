@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using TechTrain.ReusableModules.WebApi.Controllers;
+using TechTrain.ReusableModules.WebApi.Common;
 
 namespace TechTrain.ReusableModules.Tests;
 
