@@ -2,7 +2,7 @@
 API Extensible Library for API Validation 
 
 ## Getting started
-* Clone this repo and get [common project] (https://github.com/asaflevi-ms/tech-train-reusable-modules/tree/main/src/common)
+* Clone this repo and get [common project](https://github.com/asaflevi-ms/tech-train-reusable-modules/tree/main/src/common)
 
 * Add the project to your solution.
 * Add common as project reference to your process/webapp 
