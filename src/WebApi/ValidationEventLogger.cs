@@ -1,8 +1,9 @@
-﻿using TechTrain.ReusableModules.WebApi.Common;
+﻿using System.Text.Json;
+using TechTrain.ReusableModules.WebApi.Common;
 
 namespace TechTrain.ReusableModules.WebApi
 {
-	public class ValidationEventLogger : IValidationEventLogger
+	public class ValidationEventLogger 
 	{
 		private readonly IApiValidatorManager _apiValidatorManager;
 		public ValidationEventLogger(IApiValidatorManager apiValidatorManager)
@@ -14,7 +15,7 @@ namespace TechTrain.ReusableModules.WebApi
 		private void ProcessEventFunc(object? sender, ApiValidatorEventArgs e)
 		{
 			// Log the event
-			Console.WriteLine(e.errorMessage);
+			Console.WriteLine(JsonSerializer.Serialize(e.errorMessage));
 		}
 	}
 }

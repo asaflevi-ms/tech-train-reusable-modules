@@ -25,11 +25,12 @@ builder.Services.AddApiValidator(configuration)
 
 // Add ValidationEventLogger
 
-builder.Services.AddSingleton<IValidationEventLogger, ValidationEventLogger>();
+builder.Services.AddSingleton<ValidationEventLogger>();
 
 var app = builder.Build();
 app.UseMiddleware<ApiValidatorMiddleware>();
 
+app.Services.GetRequiredService<ValidationEventLogger>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
