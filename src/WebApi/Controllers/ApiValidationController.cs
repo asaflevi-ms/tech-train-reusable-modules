@@ -1,5 +1,7 @@
+using common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using System.Text.Json;
 using TechTrain.ReusableModules.WebApi.Common;
 
 namespace TechTrain.ReusableModules.WebApi.Controllers
@@ -8,26 +10,34 @@ namespace TechTrain.ReusableModules.WebApi.Controllers
     public class ApiValidationController : ControllerBase
     {
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
-
-        public ApiValidationController(IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider)
+        private readonly IApiValidatorManager _apiValidatorManager;
+        public ApiValidationController(IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, 
+                IApiValidatorManager apiValidatorManager)
         {
             _apiDescriptionGroupCollectionProvider = apiDescriptionGroupCollectionProvider;
+            _apiValidatorManager = apiValidatorManager;
         }
 
         [HttpGet]
         [Route("/validateApi")]
-        public IEnumerable<string> ValidateApi(int userId)  // What is userId
+        public IActionResult ValidateApi(int userId)  // What is userId
         {
-            var validator = new ApiDescriptionValidator();
+            var validator = _apiValidatorManager;
             foreach(var group in _apiDescriptionGroupCollectionProvider.ApiDescriptionGroups.Items)
             {
                 foreach(var item in group.Items)
                 {
                      var result = validator.Validate(item);
                      if(result != null)
-                        yield return result;       
+                     {
+                        var json = JsonSerializer.Serialize(result);
+                        return Ok(json);
+                     }
                 }
             }
+
+            return NotFound();
         }   
     }
 }
+                        

@@ -1,4 +1,9 @@
+using TechTrain.ReusableModules.WebApi;
+using TechTrain.ReusableModules.WebApi.Common;
+using Webapi.Extensions;
+using static TechTrain.ReusableModules.WebApi.Common.ApiValidatorServiceExtensions;
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
@@ -7,7 +12,23 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// get IConfiguration
+var configuration = builder.Configuration;
+builder.Services.AddSingleton(configuration);
+builder.Services.AddApiValidator(configuration)
+    .AddApiValidator<ApiPathValidator>()
+    .AddApiValidator<NoopValidator>()
+    .AddApiValidator<ControllerValidator>()
+    .AddApiValidator<GroupCollectionValidator>();
+     
+//  .AddApiValidator<PathParameterValidator>();
+
+// Add ValidationEventLogger
+
+builder.Services.AddSingleton<IValidationEventLogger, ValidationEventLogger>();
+
 var app = builder.Build();
+app.UseMiddleware<ApiValidatorMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

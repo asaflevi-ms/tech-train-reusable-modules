@@ -1,5 +1,7 @@
+using common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TechTrain.ReusableModules.WebApi.Common;
 using TechTrain.ReusableModules.WebApi.Models;
 
 namespace TechTrain.ReusableModules.WebApi.Controllers
@@ -14,7 +16,14 @@ namespace TechTrain.ReusableModules.WebApi.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpGet]
+		[HttpGet]
+		[Route("/users/{userId}/{anotherid}/test")]
+		public Task<Cart> GetCart([FromRoute] string userName, string anotherid)
+		{
+			throw new NotImplementedException();
+		}
+
+		[HttpGet]
         [Route("/carts/{cartId}/items")]
         public Task<IEnumerable<CartItem>> ListCartItems([FromRoute]int cartId)
         {
@@ -22,7 +31,8 @@ namespace TechTrain.ReusableModules.WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("/carts/{cartId}/items")]
+		[SkipApiValidator(ValidationTypes.ValidateParameters)]
+	    [Route("/carts/{cartId}/{cartName}/items")]
         public Task<IActionResult> AddItemToCart([FromRoute]int cartId, [FromBody]CartItem item)
         {
             throw new NotImplementedException();
